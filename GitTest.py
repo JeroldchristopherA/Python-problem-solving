@@ -14,13 +14,11 @@ def set_git_config(username, token):
 
 def update_remote_url(username, token, repo):
     origin_url = repo.remotes.origin.url
-
-    # Accepts only clean HTTPS URLs for simplicity
     if origin_url.startswith("https://github.com/"):
-        clean_url = origin_url[len("https://"):]  # Remove 'https://'
+        clean_url = origin_url[len("https://"):]  
     else:
         raise Exception(
-            f"❌ Unexpected remote URL format: {origin_url}\n"
+            f"Unexpected remote URL format: {origin_url}\n"
             f"Please run: git remote set-url origin https://github.com/<user>/<repo>.git"
         )
 
@@ -41,7 +39,7 @@ def choose_branch(repo):
         try:
             repo.git.checkout(branch)
         except GitCommandError:
-            print(f"❌ Branch {branch} does not exist.")
+            print(f"Branch {branch} does not exist.")
             exit(1)
     else:
         new = input("New branch name: ").strip()
@@ -55,7 +53,7 @@ def main():
     try:
         repo = Repo(os.getcwd())
     except Exception:
-        print("❌ This directory is not a git repository. Please run this script from the root of your git repo.")
+        print("This directory is not a git repository. Please run this script from the root of your git repo.")
         exit(1)
 
     # Input credentials
@@ -80,13 +78,13 @@ def main():
             raise
 
     # Ask whether to push
-    push_choice = input(f"🚀 Do you want to push to origin/{branch}? (yes/no): ").strip().lower()
+    push_choice = input(f"Do you want to push to origin/{branch}? (yes/no): ").strip().lower()
     if push_choice in ["yes", "y"]:
         print(f"🔄 Pushing to origin/{branch}...")
         repo.git.push("-u", "origin", branch)
         print("✅ Push complete!")
     else:
-        print("❌ Skipping push.")
+        print("Skipping push.")
 
 if __name__ == "__main__":
     main()

@@ -1,6 +1,6 @@
 def binary_search_recursive(arr, target, low, high):
     if low > high:
-        return -1  # Not found
+        return -1  
 
     mid = (low + high) // 2
 
